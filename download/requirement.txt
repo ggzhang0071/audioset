@@ -1,0 +1,5 @@
+pandas
+bash
+ffmpeg
+youtube-dl
+gzip
