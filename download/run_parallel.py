@@ -1,31 +1,20 @@
 from multiprocessing import Pool, cpu_count
-
-
 import numpy as np
 import pandas as pd 
 import os
 
-# 
-def split_chunks(file_name):
-    wav_name=os.path.splitext(file_name)[0]
-    wav_info=pd.read_csv(file_name,header=None,sep=" ",comment="#", engine='python')
-    wav_chunks=np.array_split(wav_info,cpu_count())
-    split_file_list=[]
-    for i in range(cpu_count()):
-        split_file_name="{}_{}.csv".format(wav_name,i)
-        wav_chunks[i].to_csv(split_file_name,float_format=int,header=None,sep=" ")
-        split_file_list.append(split_file_name)
-    return split_file_list
 
-def func(chunk_file_name):
-    os.system("cat {} | ./download.sh".format(chunk_file_name))
 
-# split data 
+def download_oneline(line_input):
+    os.system("./download.sh {}".format(line_input))
 
 if __name__=="__main__":
-    split_file_list=split_chunks("eval_segments.csv")
-    with Pool(cpu_count()) as p:
-        p.map(func,split_file_list)
-    os.remove("eval_segments_*.csv")
-
-    
+    #csv_list=["eval_segments.csv","unbalanced_train_segments.csv"]
+    csv_list=["test.csv"]
+    for csv_file in csv_list:
+        wav_info_list=[]
+        with open(csv_file,"r") as f:   
+            for line in f.readlines():
+                wav_info_list.append(line.strip())
+        with Pool(cpu_count()) as p:
+            p.map(download_oneline,wav_info_list)
