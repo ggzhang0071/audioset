@@ -4,7 +4,6 @@ import pandas as pd
 import os
 
 
-
 def download_oneline(line_input):
     os.system("./download.sh {}".format(line_input))
 
