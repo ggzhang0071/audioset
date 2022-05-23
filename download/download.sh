@@ -2,6 +2,7 @@
 
 SAMPLE_RATE=22050
 
+
 # fetch_clip(videoID, startTime, endTime)
 fetch_clip() {
   echo "Fetching $1 ($2 to $3)..."
@@ -11,7 +12,10 @@ fetch_clip() {
     return
   fi
 
-  youtube-dl https://youtube.com/watch?v=$1 \
+
+  cd  /mnt/work/git/datasets/audioset/eval_segments
+
+  youtube-dl    https://youtube.com/watch?v=$1 \
     --quiet --extract-audio --audio-format wav \
     --output "$outname.%(ext)s"
   if [ $? -eq 0 ]; then

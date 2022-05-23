@@ -1,5 +1,6 @@
-pandas
-bash
-ffmpeg
-youtube-dl
-gzip
+
+conda config --add channels conda-forge
+conda install -y ffmpeg
+python3.8 -m pip install youtube-dl
+python3.8 -m pip install pandas  
+
